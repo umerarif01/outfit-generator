@@ -12,10 +12,10 @@ export default function Home() {
   const menuToggle = useRef(null);
   const sidemenu = useRef(null);
   const [formValues, setFormValues] = useState({
-    numberOfAdvice: "",
-    gender: "",
-    weather: "",
-    dressStyle: "",
+    numberOfAdvice: "1",
+    gender: "Male",
+    weather: "Sunny",
+    dressStyle: "Classic",
     outfitColors: "",
   });
 
@@ -36,6 +36,7 @@ export default function Home() {
 
   function separateSentences(text) {
     if (!text) return;
+    console.log(formValues);
     const sentences = text
       .split(/\d+\.\s*/)
       .filter((sentence) => sentence.trim() !== "")
@@ -50,7 +51,7 @@ export default function Home() {
     return sentences;
   }
 
-  const prompt = `Recommend me ${formValues.numberOfAdvice} outfit advices to wear.The complete outfit should comprise of a top, a bottom, and a pair of shoes. I am a ${formValues.gender},the weather is ${formValues.weather}, The dress should be ${formValues.dressStyle} and the color should be ${formValues.outfitColors}. If it is male, then all outfits should be for male. If it is female, then all outfits should be for female.The response should be always like this: "A white T-shirt, blue ripped jeans, and white sneakers". The response should always be in numbered form.  No extra information required.`;
+  const prompt = `Recommend ${formValues.numberOfAdvice} outfit advices for a ${formValues.gender} to wear.The complete outfit should comprise of a top, a bottom, and a pair of shoes. The weather is ${formValues.weather}, The dress should be ${formValues.dressStyle} and the color should be ${formValues.outfitColors}. If it is male, then all outfits should be for male. If it is female, then all outfits should be for female.The response should be always like this: "A white T-shirt, blue ripped jeans, and white sneakers". The response should always be in numbered form.  No extra information required.`;
 
   async function generateContent(e) {
     e.preventDefault();
@@ -139,9 +140,12 @@ export default function Home() {
                   className="input-field"
                 >
                   <option value="Classic">Classic</option>
-                  <option value="Relaxed">Relaxed</option>
+                  <option value="Casual">Casual</option>
                   <option value="Dramatic">Dramatic</option>
                   <option value="Creative">Creative</option>
+                  <option value="Relaxed">Relaxed</option>
+                  <option value="Rebellious">Rebellious</option>
+                  <option value="Elegant">Elegant</option>
                 </select>
               </p>
               <p>

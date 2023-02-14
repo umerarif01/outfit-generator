@@ -16,8 +16,10 @@ const ChatMessage = ({
   const [images, setImages] = useState([]);
   const [generating, setGenerating] = useState(false);
 
-  const startPhrase = `A ${gender} wearing`;
-  const endPhrase = "Show the entire body except face.";
+  const startPhrase = `A ${gender} wearing `;
+  const endPhrase = "Show entire body with shoes except face.";
+
+  // The image generated should always be real body not cartoon.
 
   function addPhrases(sentences, startPhrase, endPhrase) {
     const modifiedSentences = sentences.map((sentence) => {
@@ -28,6 +30,7 @@ const ChatMessage = ({
 
   async function generateDalleImagesForPrompts(prompts) {
     let modifiedPrompts = addPhrases(prompts, startPhrase, endPhrase);
+    console.log(modifiedPrompts);
     setMode(true);
     setGenerating(true);
     const images = [];
