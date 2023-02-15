@@ -39,8 +39,8 @@ p {
 .menu-toggle {
   display: none;
   position: fixed;
-  top: 2rem;
-  right: 2rem;
+  top: 2.5rem;
+  right: 1rem;
   width: 50px;
   height: 50px;
   border-radius: 99px;
@@ -327,6 +327,7 @@ h4 {
   padding-left: 40px;
   padding-right: 40px;
   line-height: 25px;
+  text-align: left;
 }
 
 .lds-ellipsis {

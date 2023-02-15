@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import { generateDalleImages } from "utils/api";
+import { generateDalleImages, generateHuggingFace } from "utils/api";
 import Loader from "./Loader";
 import Spinner from "./Spinner";
 
@@ -16,10 +16,10 @@ const ChatMessage = ({
   const [images, setImages] = useState([]);
   const [generating, setGenerating] = useState(false);
 
-  const startPhrase = `A ${gender} wearing `;
-  const endPhrase = "Show entire body with shoes except face.";
+  const startPhrase = `A real image of a ${gender} wearing a outfit which comprises of `;
 
-  // The image generated should always be real body not cartoon.
+  const endPhrase =
+    "This image shows entire body with shoes except face. The colors of the outfit should match exactly with the prompt.";
 
   function addPhrases(sentences, startPhrase, endPhrase) {
     const modifiedSentences = sentences.map((sentence) => {
@@ -99,25 +99,41 @@ const ChatMessage = ({
                   )
                 ) : (
                   <>
-                    {generating ? (
-                      <div className="spinner">
-                        <Spinner />
-                        <h4>Generating...</h4>
-                      </div>
-                    ) : (
-                      images.map((image, index) => (
-                        <div key={index}>
-                          <p className="imgname">{image.advice}</p>
-                          <img
-                            src={image.url}
-                            alt={image.name}
-                            width={640}
-                            height={640}
-                            className="ai-image"
-                          />
+                    <>
+                      {generating ? (
+                        <div className="spinner">
+                          <Spinner />
+                          <h4>Generating...</h4>
                         </div>
-                      ))
-                    )}
+                      ) : (
+                        <div>
+                          {images.map((image, index) => (
+                            <div key={index}>
+                              <p className="imgname">{image.advice}</p>
+                              <img
+                                src={image.url}
+                                alt={image.name}
+                                width={640}
+                                height={640}
+                                className="ai-image"
+                              />
+                            </div>
+                          ))}
+                          <h4>
+                            Do you wish to generate these images again for the
+                            following recommendations?
+                          </h4>
+                          <button
+                            className="input-button"
+                            onClick={() =>
+                              generateDalleImagesForPrompts(advices)
+                            }
+                          >
+                            Yes, Generate these images again
+                          </button>
+                        </div>
+                      )}
+                    </>
                   </>
                 )}
               </div>
