@@ -55,7 +55,7 @@ export default function Home() {
 
   async function generateContent(e) {
     e.preventDefault();
-
+    setMode(false);
     setLoading(true);
     const response = await fetch("api/generate", {
       method: "POST",
