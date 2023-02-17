@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { generateDalleImages, generateHuggingFace } from "utils/api";
-import Loader from "./Loader";
 import Spinner from "./Spinner";
 
 const ChatMessage = ({
@@ -9,14 +8,14 @@ const ChatMessage = ({
   message,
   advices,
   loading,
-  gender,
+  values,
   mode,
   setMode,
 }) => {
   const [images, setImages] = useState([]);
   const [generating, setGenerating] = useState(false);
 
-  const startPhrase = `A real image of a ${gender} wearing a outfit which comprises of `;
+  const startPhrase = `A real image of a ${values.age} years old ${values.gender} wearing a outfit which comprises of `;
 
   const endPhrase =
     "This image shows entire body with shoes except face. The colors of the outfit should match exactly with the prompt.";
@@ -33,6 +32,7 @@ const ChatMessage = ({
     console.log(modifiedPrompts);
     setMode(true);
     setGenerating(true);
+    setImages([]);
     const images = [];
     for (let prompt of modifiedPrompts) {
       const url = await generateDalleImages(prompt);
@@ -52,91 +52,81 @@ const ChatMessage = ({
   return (
     <div>
       {loading ? (
-        <Loader />
+        <div className="spinner">
+          <Spinner />
+          <h4>Generating...</h4>
+        </div>
       ) : (
         <>
           {" "}
-          <div className={`chat-message ${user === "gpt" && "chatgpt"}`}>
-            <div className="chat-message-center">
-              <Image
-                src={`${user === "gpt" ? "/aicon.jpg" : "/user.png"}`}
-                width={40}
-                height={40}
-                alt={`${user === "gpt" ? "gpt" : "user"}`}
-                className={`avatar ${user === "gpt" && "chatgpt"}`}
-              />
-              <div className="message">
-                {advices.length === 0 ? (
-                  message
-                ) : (
-                  <>
-                    <h4>
-                      Please find below a list of outfit recommendations that
-                      have been generated based on the selected options:
-                    </h4>
-                    {advices.map((advice, index) => (
-                      <p key={index} className="">
-                        {index + 1}.) {advice}
+          <div className="">
+            <div className="message">
+              {advices.length === 0 ? (
+                message
+              ) : (
+                <>
+                  <h4>
+                    Please find below a list of outfit recommendations that have
+                    been generated based on the selected options:
+                  </h4>
+                  {advices.map((advice, index) => (
+                    <div className="advices" key={index}>
+                      <p className="">
+                        {index + 1}. ) {advice}
                       </p>
-                    ))}
-                  </>
-                )}
-                {!mode ? (
-                  advices.length > 0 && (
-                    <div>
-                      {" "}
-                      <h4>
-                        Do you wish to generate images for the following
-                        recommendations?
-                      </h4>
-                      <button
-                        className="input-button"
-                        onClick={() => generateDalleImagesForPrompts(advices)}
-                      >
-                        Generate images for the following recommendations
-                      </button>
                     </div>
-                  )
-                ) : (
+                  ))}
+                </>
+              )}
+              {!mode ? (
+                advices.length > 0 && (
+                  <div className="center">
+                    {" "}
+                    <button
+                      className="input-button"
+                      onClick={() => generateDalleImagesForPrompts(advices)}
+                    >
+                      Generate images for the following recommendations
+                    </button>
+                  </div>
+                )
+              ) : (
+                <>
                   <>
-                    <>
-                      {generating ? (
-                        <div className="spinner">
-                          <Spinner />
-                          <h4>Generating...</h4>
-                        </div>
-                      ) : (
-                        <div>
-                          {images.map((image, index) => (
-                            <div key={index}>
-                              <p className="imgname">{image.advice}</p>
-                              <img
-                                src={image.url}
-                                alt={image.name}
-                                width={640}
-                                height={640}
-                                className="ai-image"
-                              />
-                            </div>
-                          ))}
-                          <h4>
-                            Do you wish to generate these images again for the
-                            following recommendations?
-                          </h4>
+                    {generating ? (
+                      <div className="spinner">
+                        <Spinner />
+                        <h3>Generating...</h3>
+                      </div>
+                    ) : (
+                      <div>
+                        {images.map((image, index) => (
+                          <div key={index}>
+                            <p className="imgname">{image.advice}</p>
+                            <img
+                              src={image.url}
+                              alt={image.name}
+                              width={640}
+                              height={640}
+                              className="ai-image"
+                            />
+                          </div>
+                        ))}
+                        <div className="center">
                           <button
                             className="input-button"
                             onClick={() =>
                               generateDalleImagesForPrompts(advices)
                             }
                           >
-                            Yes, Generate these images again
+                            Generate these images again
                           </button>
                         </div>
-                      )}
-                    </>
+                      </div>
+                    )}
                   </>
-                )}
-              </div>
+                </>
+              )}
             </div>
           </div>
         </>

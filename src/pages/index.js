@@ -17,6 +17,7 @@ export default function Home() {
     weather: "Sunny",
     dressStyle: "Classic",
     outfitColors: "",
+    age: "25",
   });
 
   function clearAdvices() {
@@ -28,11 +29,6 @@ export default function Home() {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
   };
-
-  function handleClick() {
-    menuToggle.current.classList.toggle("is-active");
-    sidemenu.current.classList.toggle("is-active");
-  }
 
   function separateSentences(text) {
     if (!text) return;
@@ -51,7 +47,7 @@ export default function Home() {
     return sentences;
   }
 
-  const prompt = `Recommend ${formValues.numberOfAdvice} outfit advices for a ${formValues.gender} to wear.The complete outfit should comprise of a top, a bottom, and a pair of shoes. The weather is ${formValues.weather}, The dress should be ${formValues.dressStyle} and the color should be ${formValues.outfitColors}. If it is male, then all outfits should be for male. If it is female, then all outfits should be for female.The response should be always like this: "A white T-shirt, blue ripped jeans, and white sneakers". The response should always be in numbered form.  No extra information required.`;
+  const prompt = `Recommend ${formValues.numberOfAdvice} outfit advices for a ${formValues.age} years old ${formValues.gender} to wear.The complete outfit should comprise of a top, a bottom, and a pair of shoes. The weather is ${formValues.weather}, The dress should be ${formValues.dressStyle} and the color should be ${formValues.outfitColors}. If it is male, then all outfits should be for male. If it is female, then all outfits should be for female.The response should be always like this: "A white T-shirt, blue ripped jeans, and white sneakers". The response should always be in numbered form.  No extra information required.`;
 
   async function generateContent(e) {
     e.preventDefault();
@@ -86,102 +82,115 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="App">
-        <aside className="sidemenu" ref={sidemenu}>
-          <div className="menu">
-            <div className="sidemenu-button" onClick={clearAdvices}>
-              <span>+</span>
-              Clear Advice
+        <header>
+          <div className="navbar">
+            <div className="logo">
+              <h2>Logo Here</h2>
             </div>
+            <div className="nav-links">
+              <ul>
+                <li></li>
+              </ul>
+            </div>
+          </div>
+        </header>
 
-            <form
-              onSubmit={(e) => {
-                generateContent(e);
-              }}
-            >
-              <p>
-                Number of advice:
-                <input
-                  type="number"
-                  name="numberOfAdvice"
-                  className="input-field"
-                  onChange={handleInputChange}
-                />
-              </p>
-              <p>
-                Gender:
-                <select
-                  name="gender"
-                  onChange={handleInputChange}
-                  className="input-field"
-                >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </p>
-              <p>
-                Weather:
-                <select
-                  name="weather"
-                  onChange={handleInputChange}
-                  className="input-field"
-                >
-                  <option value="Sunny">Sunny</option>
-                  <option value="Rainy">Rainy</option>
-                  <option value="Cloudy">Cloudy</option>
-                  <option value="Snowy">Snowy</option>
-                </select>
-              </p>
-              <p>
-                Dress style:
-                <select
-                  name="dressStyle"
-                  onChange={handleInputChange}
-                  className="input-field"
-                >
-                  <option value="Classic">Classic</option>
-                  <option value="Casual">Casual</option>
-                  <option value="Dramatic">Dramatic</option>
-                  <option value="Creative">Creative</option>
-                  <option value="Relaxed">Relaxed</option>
-                  <option value="Rebellious">Rebellious</option>
-                  <option value="Elegant">Elegant</option>
-                </select>
-              </p>
-              <p>
-                Colors of the outfit:
-                <input
-                  type="text"
-                  name="outfitColors"
-                  className="input-field"
-                  onChange={handleInputChange}
-                />
-              </p>
-              <button type="submit">
-                {loading ? "Generating Advice" : "Generate Advice"}
+        <main>
+          <section className="showcase">
+            <form onSubmit={generateContent}>
+              <h1>Outfit Generator</h1>
+              <p className="subtitle">Please select the options below:</p>
+              <div className="form-control"></div>
+              <div className="grid-container">
+                <div className="input">
+                  <label>Number of Advice:</label>
+                  <input
+                    type="number"
+                    name="numberOfAdvice"
+                    className="input-field"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="input">
+                  <label>Gender:</label>
+                  <select
+                    name="gender"
+                    onChange={handleInputChange}
+                    className="input-field"
+                    placeholder="Gender"
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div className="input">
+                  <label>Weather:</label>
+                  <select
+                    name="weather"
+                    onChange={handleInputChange}
+                    className="input-field"
+                  >
+                    <option value="Sunny">Sunny</option>
+                    <option value="Rainy">Rainy</option>
+                    <option value="Cloudy">Cloudy</option>
+                    <option value="Snowy">Snowy</option>
+                  </select>
+                </div>
+                <div className="input">
+                  <label>Dress Style:</label>
+                  <select
+                    name="dressStyle"
+                    onChange={handleInputChange}
+                    className="input-field"
+                  >
+                    <option value="Classic">Classic</option>
+                    <option value="Casual">Casual</option>
+                    <option value="Dramatic">Dramatic</option>
+                    <option value="Creative">Creative</option>
+                    <option value="Relaxed">Relaxed</option>
+                    <option value="Rebellious">Rebellious</option>
+                    <option value="Elegant">Elegant</option>
+                  </select>
+                </div>
+                <div className="input">
+                  <label>Color of the outfit:</label>
+                  <input
+                    type="text"
+                    name="outfitColors"
+                    className="input-field"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="input">
+                  <label>Age:</label>
+                  <input
+                    type="number"
+                    name="age"
+                    className="input-field"
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <button type="submit" className="btn">
+                Generate
               </button>
             </form>
-          </div>
-        </aside>
-        <section className="chatbox">
-          <div ref={menuToggle} className="menu-toggle" onClick={handleClick}>
-            <div className="hamburger">
-              <span></span>
-            </div>
-          </div>
+          </section>
 
-          <ChatMessage
-            user="gpt"
-            message="Welcome! Let's get you dressed for the day. I will recommend you some amazing outfits"
-            advices={advices}
-            loading={loading}
-            gender={formValues.gender}
-            mode={mode}
-            setMode={setMode}
-          />
-
-          <div className="margin-above" />
-        </section>
+          <section className="content">
+            <ChatMessage
+              user="gpt"
+              message=""
+              advices={advices}
+              loading={loading}
+              values={formValues}
+              mode={mode}
+              setMode={setMode}
+            />
+          </section>
+        </main>
       </main>
     </>
   );
