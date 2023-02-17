@@ -101,7 +101,7 @@ const ChatMessage = ({
                     ) : (
                       <div>
                         {images.map((image, index) => (
-                          <div key={index}>
+                          <div key={index} className="images">
                             <p className="imgname">{image.advice}</p>
                             <img
                               src={image.url}
