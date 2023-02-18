@@ -15,10 +15,10 @@ const ChatMessage = ({
   const [images, setImages] = useState([]);
   const [generating, setGenerating] = useState(false);
 
-  const startPhrase = `A real image of a ${values.age} years old ${values.gender} wearing a outfit which comprises of `;
+  const startPhrase = `This is a genuine photograph of a ${values.age} years old ${values.gender} model wearing an outfit that includes `;
 
   const endPhrase =
-    "This image shows entire body with shoes except face. The colors of the outfit should match exactly with the prompt.";
+    "This photograph depicts the entire body of a person, with special attention given to accurately and beautifully representing the person's face. The outfit should feature colors that precisely match the prompt, and the generated image should include a face.";
 
   function addPhrases(sentences, startPhrase, endPhrase) {
     const modifiedSentences = sentences.map((sentence) => {

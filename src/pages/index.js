@@ -47,7 +47,7 @@ export default function Home() {
     return sentences;
   }
 
-  const prompt = `Recommend ${formValues.numberOfAdvice} outfit advices for a ${formValues.age} years old ${formValues.gender} to wear.The complete outfit should comprise of a top, a bottom, and a pair of shoes. The weather is ${formValues.weather}, The dress should be ${formValues.dressStyle} and the color should be ${formValues.outfitColors}. If it is male, then all outfits should be for male. If it is female, then all outfits should be for female.The response should be always like this: "A white T-shirt, blue ripped jeans, and white sneakers". The response should always be in numbered form.  No extra information required.`;
+  const prompt = `Recommend ${formValues.numberOfAdvice} outfit advices for a ${formValues.age} years old ${formValues.gender} to wear. An outfit always consists of a combination of a top, bottom, and shoes, but it should not be limited to these items alone. You can add other items to the outfit as well. The weather is ${formValues.weather}, The dress should be ${formValues.dressStyle} and the color should be ${formValues.outfitColors}. The response should always be in numbered form.`;
 
   async function generateContent(e) {
     e.preventDefault();
