@@ -53,21 +53,20 @@ export default function Home() {
     e.preventDefault();
     setMode(false);
     setLoading(true);
-    const response = await fetch("api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: prompt,
-        currentModel,
-      }),
-    });
-    const data = await response.json();
-    setLoading(false);
-    const newAdvice = separateSentences(data.message);
-    console.log(newAdvice);
-    setAdvices(newAdvice);
+
+    try {
+      setGeneratedContent("");
+      const data = await generateContentByGPT(prompt);
+      let response = data.choices[0].text;
+      const newAdvice = separateSentences(response);
+      console.log(newAdvice);
+      setAdvices(newAdvice);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      alert("Error occured. Please try again later.");
+    }
   }
 
   return (
