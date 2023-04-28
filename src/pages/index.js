@@ -2,6 +2,7 @@ import ChatMessage from "components/ChatMessage";
 import Head from "next/head";
 import Image from "next/image";
 import { useState, useRef } from "react";
+import { generateContentByGPT } from "utils/api";
 // import { generateImage } from "utils/api";
 
 export default function Home() {
