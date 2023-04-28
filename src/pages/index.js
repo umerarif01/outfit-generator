@@ -55,7 +55,6 @@ export default function Home() {
     setLoading(true);
 
     try {
-      setGeneratedContent("");
       const data = await generateContentByGPT(prompt);
       let response = data.choices[0].text;
       const newAdvice = separateSentences(response);
