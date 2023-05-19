@@ -15,10 +15,10 @@ const ChatMessage = ({
   const [images, setImages] = useState([]);
   const [generating, setGenerating] = useState(false);
 
-  const startPhrase = `This is a genuine photograph of a ${values.age} years old ${values.gender} model wearing an outfit that includes `;
+  const startPhrase = `This is a genuine photograph of a ${values.age} years old ${values.gender} model wearing an outfit that includes:`;
 
   const endPhrase =
-    "This photograph depicts the entire body of a person, with special attention given to accurately and beautifully representing the person's face. The outfit should feature colors that precisely match the prompt, and the generated image should include a face.";
+    "This photograph showcases the entire body of the model, with special attention given to accurately and beautifully representing their face. The generated body and face should resemble that of a real human being, ensuring a lifelike appearance. The outfit should feature colors that precisely match the prompt, and the generated image should prominently showcase the model's face.";
 
   function addPhrases(sentences, startPhrase, endPhrase) {
     const modifiedSentences = sentences.map((sentence) => {
@@ -35,7 +35,8 @@ const ChatMessage = ({
     setImages([]);
     const images = [];
     for (let prompt of modifiedPrompts) {
-      const url = await generateDalleImages(prompt);
+      const img = await generateDalleImages(prompt);
+      let url = img.data[0].url;
       images.push(url);
     }
     const data = [];

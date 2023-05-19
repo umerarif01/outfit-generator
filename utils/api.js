@@ -1,11 +1,32 @@
-const url = "https://api.openai.com/v1/completions";
+async function generateContentByGPT(prompt) {
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: `${prompt}` }],
+      }),
+    });
 
-export const generateContentByGPT = async (prompt) => {
+    const data = await response.json();
+    const completion = data.choices[0].message;
+    return completion;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+const url = "https://api.openai.com/v1/images/generations";
+
+const generateDalleImages = async (prompt) => {
   const data = JSON.stringify({
-    model: "text-davinci-003",
     prompt: prompt,
-    max_tokens: 1000,
-    temperature: 0.5,
+    n: 1,
+    size: "1024x1024",
   });
 
   const headers = new Headers({
@@ -22,47 +43,4 @@ export const generateContentByGPT = async (prompt) => {
     .catch((error) => console.error(error));
 };
 
-async function generateDalleImages(prompt) {
-  const response = await fetch("/api/dallE", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      prompt,
-    }),
-  });
-  const data = await response.json();
-  const img = data.data;
-  return img;
-}
-
-async function generateHuggingFace(prompt) {
-  // Joeythemonster/anything-midjourney-v-4-1
-  const URL = `https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1`;
-
-  const response = await fetch(URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_HUGGING_FACE_API_KEY}`,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      inputs: prompt,
-      options: {
-        use_cache: false,
-        wait_for_model: true,
-      },
-    }),
-  });
-
-  const type = response.headers.get("content-type");
-  const data = await response.arrayBuffer();
-
-  const base64data = Buffer.from(data).toString("base64");
-  const img = `data:${type};base64,` + base64data;
-  return img;
-}
-
-export { generateDalleImages, generateHuggingFace };
+export { generateDalleImages, generateContentByGPT };

@@ -48,7 +48,12 @@ export default function Home() {
     return sentences;
   }
 
-  const prompt = `Recommend ${formValues.numberOfAdvice} outfit advices for a ${formValues.age} years old ${formValues.gender} to wear. An outfit always consists of a combination of a top, bottom, and shoes, but it should not be limited to these items alone. You can add other items to the outfit as well. The weather is ${formValues.weather}, The dress should be ${formValues.dressStyle} and the color should be ${formValues.outfitColors}. The response should always be in numbered form.`;
+  let prompt = `Recommend ${formValues.numberOfAdvice} outfit advices for a ${formValues.age} years old ${formValues.gender} to wear.
+  An outfit always consists of a combination of a top, bottom, and shoes, but it should not be limited to these items alone. You can add other items to the outfit as well.
+  The Outfit advice should be detailed.
+  The weather is ${formValues.weather}.
+  The dress should be ${formValues.dressStyle} and the color should be ${formValues.outfitColors}.
+  The response should always be in numbered form.`;
 
   async function generateContent(e) {
     e.preventDefault();
@@ -57,7 +62,7 @@ export default function Home() {
 
     try {
       const data = await generateContentByGPT(prompt);
-      let response = data.choices[0].text;
+      let response = data.content;
       const newAdvice = separateSentences(response);
       console.log(newAdvice);
       setAdvices(newAdvice);
@@ -84,7 +89,7 @@ export default function Home() {
         <header>
           <div className="navbar">
             <div className="logo">
-              <h2>Logo Here</h2>
+              <img src="./logo.jpg" className="logoimg" />
             </div>
             <div className="nav-links">
               <ul>
